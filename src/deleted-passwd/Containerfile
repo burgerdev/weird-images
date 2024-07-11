@@ -1,0 +1,3 @@
+FROM busybox:latest
+
+RUN rm /etc/passwd
