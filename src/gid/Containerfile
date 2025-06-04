@@ -1,0 +1,9 @@
+FROM busybox@sha256:f85340bf132ae937d2c2a763b8335c9bab35d6e8293f70f606b9c6178d84f42b
+LABEL org.opencontainers.image.source https://github.com/burgerdev/weird-images
+
+USER name
+
+COPY passwd /etc/passwd
+COPY group /etc/group
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]

@@ -18,6 +18,10 @@ deleted-passwd:
 	podman build -t $(repo)/deleted-passwd:latest src/deleted-passwd
 	podman push --tls-verify=false $(repo)/deleted-passwd:latest
 
+gid:
+	podman build -t $(repo)/gid:latest src/gid
+	podman push --tls-verify=false $(repo)/gid:latest
+
 assets/busybox:
 	mkdir -p assets
 	curl -sSfL https://github.com/burgerdev/busybox/releases/download/latest/busybox > assets/busybox

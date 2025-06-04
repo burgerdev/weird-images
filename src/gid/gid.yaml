@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gid-experiment
+  labels:
+    app: gid-experiment
+spec:
+  selector:
+    matchLabels:
+      app: gid-experiment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gid-experiment
+    spec:
+      containers:
+      - name: gid
+        image: ghcr.io/burgerdev/weird-images/gid:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: 50Mi
