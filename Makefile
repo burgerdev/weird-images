@@ -35,3 +35,17 @@ zstd: assets/busybox
 	tar -cf $(images)/zstd/busybox.tar.zstd --zstd -C assets busybox --transform 's|^|/bin/|'
 	crane append -b $(repo)/zstd:latest -f images/zstd/busybox.tar.zstd -t $(repo)/zstd:latest
 
+# TODO(burgerdev): this is mostly copy-pasted from above - maybe there's an easier way?
+reused-layer: assets/busybox
+	rm -rf -- $(images)/reused-layer
+	umoci init --layout $(images)/reused-layer
+	umoci new --image $(images)/reused-layer:latest
+	skopeo copy --dest-tls-verify=false oci:$(images)/reused-layer:latest docker://$(repo)/reused-layer/a:latest
+	skopeo copy --dest-tls-verify=false oci:$(images)/reused-layer:latest docker://$(repo)/reused-layer/b:latest
+	tar -czf $(images)/reused-layer/busybox.tar.gz -C assets busybox --transform 's|^|/bin/|'
+	tar -czf $(images)/reused-layer/empty.tar.gz --files-from=/dev/null
+	crane append -b $(repo)/reused-layer/a:latest -f images/reused-layer/busybox.tar.gz -t $(repo)/reused-layer/a:latest
+	crane append -b $(repo)/reused-layer/a:latest -f images/reused-layer/empty.tar.gz -t $(repo)/reused-layer/a:latest
+	crane append -b $(repo)/reused-layer/b:latest -f images/reused-layer/empty.tar.gz -t $(repo)/reused-layer/b:latest
+	crane append -b $(repo)/reused-layer/b:latest -f images/reused-layer/busybox.tar.gz -t $(repo)/reused-layer/b:latest
+
