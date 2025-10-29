@@ -25,6 +25,7 @@ gid:
 assets/busybox:
 	mkdir -p assets
 	curl -sSfL https://github.com/burgerdev/busybox/releases/download/latest/busybox > assets/busybox
+	chmod a+x assets/busybox
 
 # TODO(burgerdev): there's a bug in crane, media type is set to gzip.
 zstd: assets/busybox
